@@ -53,6 +53,8 @@ pub enum Action {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+  tracing_subscriber::fmt::init();
+
   let CliArgs { path, creds } = CliArgs::parse();
 
   let CredsFile {

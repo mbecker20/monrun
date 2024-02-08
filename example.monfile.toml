@@ -1,0 +1,23 @@
+name = "system redeploy"
+
+# These stages are run sequentially from top to bottom.
+# Each stage can specify multiple targets, these are run in parallel
+
+[[stage]]
+name = "rebuild apps 🔨"
+action = "build"
+# If action type is "build", then targets are build names
+targets = ["app_1_build", "app_2_build", "app_2_build"] # done in parallel
+
+# maybe app_2 and app_3 depend on app_1, so lets first redeploy app_1
+[[stage]]
+name = "redeploy app_1"
+action = "deploy" # could also be "start_container", "stop_container", or "destroy_container"
+# otherwise, the targets are deployment names
+targets = ["app_1"]
+
+# at this point app_1 is redeployed, so we can do both app_2 and app_3 in parallel
+[[stage]]
+name = "redeploy rest"
+action = "deploy"
+targets = ["app_2", "app_3"]
